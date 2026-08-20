@@ -1,0 +1,264 @@
+.aguy-app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.aguy-app-shell__main {
+  flex: 1;
+}
+
+.aguy-shell-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 40;
+  border-block-end: 1px solid hsl(var(--border) / 0.72);
+  background: hsl(var(--card) / 0.88);
+  color: hsl(var(--card-foreground));
+  backdrop-filter: blur(18px) saturate(1.5);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.08),
+    0 8px 28px rgb(0 0 0 / 0.06);
+}
+
+.aguy-shell-header__inner {
+  width: min(100% - 2rem, 80rem);
+  min-height: 4.5rem;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.aguy-shell-header__brand,
+.aguy-brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.aguy-shell-header__brand {
+  min-width: max-content;
+  gap: 0.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.aguy-brand {
+  gap: 0.625rem;
+  color: hsl(var(--primary));
+  font-weight: 760;
+  letter-spacing: -0.025em;
+}
+
+.aguy-brand__mark {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+}
+
+.aguy-brand__label {
+  color: hsl(var(--foreground));
+  font-size: 1.15rem;
+}
+
+.aguy-shell-header__divider {
+  width: 1px;
+  height: 1.75rem;
+  background: hsl(var(--border));
+}
+
+.aguy-shell-header__app-name {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: hsl(var(--muted-foreground));
+}
+
+.aguy-shell-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.aguy-shell-nav--desktop {
+  margin-inline: auto;
+}
+
+.aguy-shell-nav__link {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.9rem;
+  border-radius: 0.7rem;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 620;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
+}
+
+.aguy-shell-nav__link:hover,
+.aguy-shell-nav__link[aria-current='page'] {
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted));
+}
+
+.aguy-shell-header__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-inline-start: auto;
+}
+
+.aguy-control {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-inline: 0.7rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.7rem;
+  background: hsl(var(--background) / 0.65);
+  color: hsl(var(--foreground));
+}
+
+.aguy-control:focus-within {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.aguy-control__icon {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  color: hsl(var(--muted-foreground));
+}
+
+.aguy-control__select {
+  max-width: 7rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.aguy-menu-button {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: none;
+  place-items: center;
+  gap: 0.25rem;
+  padding: 0.65rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.7rem;
+  background: hsl(var(--background) / 0.65);
+  color: hsl(var(--foreground));
+}
+
+.aguy-menu-button span {
+  width: 1.15rem;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.aguy-mobile-panel {
+  display: none;
+  width: min(100% - 2rem, 80rem);
+  margin-inline: auto;
+  padding-block: 0 1rem;
+}
+
+.aguy-app-shell__footer {
+  padding: 1.5rem;
+  border-block-start: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+}
+
+.aguy-skip-link {
+  position: fixed;
+  inset-block-start: 1rem;
+  inset-inline-start: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  transform: translateY(-200%);
+}
+
+.aguy-skip-link:focus {
+  transform: translateY(0);
+}
+
+.aguy-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .aguy-shell-header__inner {
+    min-height: 4rem;
+  }
+
+  .aguy-shell-nav--desktop,
+  .aguy-theme-control,
+  .aguy-locale-control .aguy-control__select {
+    display: none;
+  }
+
+  .aguy-menu-button {
+    display: grid;
+  }
+
+  .aguy-mobile-panel,
+  .aguy-shell-nav--mobile {
+    display: flex;
+  }
+
+  .aguy-shell-nav--mobile {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .aguy-shell-nav--mobile .aguy-shell-nav__link {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .aguy-shell-header__inner {
+    width: min(100% - 1rem, 80rem);
+    gap: 0.5rem;
+  }
+
+  .aguy-brand__label,
+  .aguy-shell-header__divider {
+    display: none;
+  }
+
+  .aguy-shell-header__app-name {
+    max-width: 7.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .aguy-shell-header__controls {
+    gap: 0.3rem;
+  }
+}
