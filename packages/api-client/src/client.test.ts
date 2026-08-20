@@ -25,6 +25,20 @@ describe('A-Guy API client', () => {
     expect(init?.cache).toBe('no-store')
   })
 
+  it('can preserve the raw upstream response for secure cookie proxying', async () => {
+    const upstream = new Response(null, {
+      status: 204,
+      headers: { 'set-cookie': 'payload-token=; Max-Age=0' },
+    })
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(upstream)
+    const client = createAguyApiClient({ cookie: 'payload-token=opaque', fetch: fetcher })
+
+    const response = await client.requestRaw('/api/auth/logout', { method: 'POST' })
+
+    expect(response).toBe(upstream)
+    expect(response.headers.get('set-cookie')).toContain('Max-Age=0')
+  })
+
   it('returns one typed unauthorized error without retrying', async () => {
     const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
       new Response(JSON.stringify({ error: 'Unauthorized' }), {

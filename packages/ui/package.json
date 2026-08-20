@@ -1,6 +1,6 @@
 {
   "name": "@a-guy/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared A-Guy application shell, theme, locale, and brand primitives",
   "license": "BSL-1.1",
   "type": "module",

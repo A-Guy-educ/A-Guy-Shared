@@ -66,7 +66,10 @@ export function createAguyApiClient(options: AguyApiClientOptions = {}) {
   const baseUrl = normalizedBaseUrl(options.baseUrl ?? DEFAULT_API_BASE_URL)
   const fetcher = options.fetch ?? globalThis.fetch
 
-  async function request<T>(path: string, requestOptions: ApiRequestOptions<T> = {}): Promise<T> {
+  async function requestRaw<T>(
+    path: string,
+    requestOptions: ApiRequestOptions<T> = {},
+  ): Promise<Response> {
     if (!path.startsWith('/api/')) throw new Error('A-Guy API paths must start with /api/')
 
     const headers = new Headers(requestOptions.headers)
@@ -74,7 +77,7 @@ export function createAguyApiClient(options: AguyApiClientOptions = {}) {
     if (options.cookie) headers.set('cookie', options.cookie)
     if (requestOptions.body !== undefined) headers.set('content-type', 'application/json')
 
-    const response = await fetcher(`${baseUrl}${path}`, {
+    return fetcher(`${baseUrl}${path}`, {
       method: requestOptions.method ?? 'GET',
       body: requestOptions.body === undefined ? undefined : JSON.stringify(requestOptions.body),
       credentials: 'include',
@@ -82,6 +85,10 @@ export function createAguyApiClient(options: AguyApiClientOptions = {}) {
       cache: 'no-store',
       redirect: 'manual',
     })
+  }
+
+  async function request<T>(path: string, requestOptions: ApiRequestOptions<T> = {}): Promise<T> {
+    const response = await requestRaw(path, requestOptions)
 
     const contentType = response.headers.get('content-type') ?? ''
     const body = contentType.includes('application/json')
@@ -97,6 +104,7 @@ export function createAguyApiClient(options: AguyApiClientOptions = {}) {
 
   return {
     request,
+    requestRaw,
     getCurrentUser: (validate?: ApiValidator<CurrentUserResponse>) =>
       request<CurrentUserResponse>('/api/users/me', { validate }),
     logout: () => request<unknown>('/api/auth/logout', { method: 'POST' }),
