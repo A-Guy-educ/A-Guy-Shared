@@ -1,0 +1,34 @@
+{
+  "name": "a-guy-shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --recursive build",
+    "typecheck": "pnpm --recursive typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm build",
+    "pack:all": "pnpm build && mkdir -p artifacts && pnpm --filter @a-guy/ui pack --pack-destination artifacts && pnpm --filter @a-guy/api-client pack --pack-destination artifacts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "eslint": "^9.34.0",
+    "prettier": "^3.6.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.42.0",
+    "vitest": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20.9.0",
+    "pnpm": "^10 || ^11"
+  },
+  "packageManager": "pnpm@10.33.0"
+}
