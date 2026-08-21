@@ -44,17 +44,27 @@ function normalizedBaseUrl(value: string): string {
   return value.replace(/\/+$/, '')
 }
 
-function safeReturnTo(returnTo: string): string {
+function safeReturnTo(returnTo: string, trustedOrigins: readonly string[] = []): string {
   const url = new URL(returnTo)
-  if (url.protocol !== 'https:' || !url.hostname.endsWith('.aguy.co.il')) {
-    throw new Error('returnTo must be an HTTPS A-Guy subdomain URL')
+  const isAguySubdomain = url.protocol === 'https:' && url.hostname.endsWith('.aguy.co.il')
+  const isExplicitlyTrusted = trustedOrigins.some((origin) => {
+    const trusted = new URL(origin)
+    return trusted.protocol === 'https:' && url.origin === trusted.origin
+  })
+
+  if (!isAguySubdomain && !isExplicitlyTrusted) {
+    throw new Error('returnTo must be an HTTPS A-Guy subdomain URL or explicitly trusted HTTPS URL')
   }
   return url.toString()
 }
 
-export function createLoginUrl(returnTo: string, webAppUrl = WEB_APP_URL): string {
+export function createLoginUrl(
+  returnTo: string,
+  webAppUrl = WEB_APP_URL,
+  trustedReturnOrigins: readonly string[] = [],
+): string {
   const url = new URL('/login', webAppUrl)
-  url.searchParams.set('returnTo', safeReturnTo(returnTo))
+  url.searchParams.set('returnTo', safeReturnTo(returnTo, trustedReturnOrigins))
   return url.toString()
 }
 
