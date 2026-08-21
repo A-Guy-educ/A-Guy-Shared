@@ -1,6 +1,6 @@
 {
   "name": "@a-guy/api-client",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Typed client for the A-Guy platform API",
   "license": "BSL-1.1",
   "type": "module",

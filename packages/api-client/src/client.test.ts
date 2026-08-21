@@ -66,4 +66,15 @@ describe('A-Guy API client', () => {
     )
     expect(() => createLoginUrl('https://not-aguy.example/')).toThrow('A-Guy subdomain')
   })
+
+  it('allows only the exact explicitly trusted preview origin', () => {
+    const previewOrigin = 'https://a-guy-teacher-git-dev-aguy.vercel.app'
+
+    expect(createLoginUrl(`${previewOrigin}/`, undefined, [previewOrigin])).toContain(
+      'returnTo=https%3A%2F%2Fa-guy-teacher-git-dev-aguy.vercel.app%2F',
+    )
+    expect(() =>
+      createLoginUrl('https://another-preview.vercel.app/', undefined, [previewOrigin]),
+    ).toThrow('trusted HTTPS URL')
+  })
 })
